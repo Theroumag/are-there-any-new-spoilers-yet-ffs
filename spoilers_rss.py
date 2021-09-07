@@ -1,14 +1,15 @@
-#!/usr/bin/python
+#!/usr/bin/python#!/usr/bin/python
 
 import requests
 import json
 
-sets = ["mid", "mic"] # make mid.txt & mic.txt if they dont exist
+sets = ["mh1"] # sets to get updates for
 
 for _set in sets: # set is a keyword so _set
-    cache_file = "~/.cache/" + _set + ".txt"
+    cache_file = "/root/.cache/" + _set + ".txt"
+    open(cache_file, 'a').close() # create cache files if they dont exist
 
-    with open(cache_file) as f:   saved_set = f.readlines()
+    with open(cache_file) as f:   saved_set = f.readlines() # read cache before overwritten
 
     url = "https://api.scryfall.com/cards/search?order=set&q=e:" + _set + "&unique=prints"
     r = requests.get(url)
@@ -25,13 +26,13 @@ for _set in sets: # set is a keyword so _set
         for card in j['data']:
             card_names.append(card['name'])
 
-    with open(cache_file, "w") as f:
+    with open(cache_file, "w") as f: # write list to cache file
         f.writelines("\n".join(card_names))
 
-    with open(cache_file) as f:   updated_set = f.readlines()
+    with open(cache_file) as f:   updated_set = f.readlines() # read freshly saved cache
 
 
-    new_cards = set(saved_set).difference(updated_set)
+    new_cards = set(saved_set).difference(updated_set) # compare old cache and new one
 
     print(f"Set: {_set.upper()}")
     print(new_cards)
