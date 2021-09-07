@@ -3,7 +3,7 @@
 import requests
 import json
 
-sets = ["mh1"] # sets to get updates for
+sets = ["mid", "mic"] # sets to get updates for
 
 for _set in sets: # set is a keyword so _set
     cache_file = "/root/.cache/" + _set + ".txt"
